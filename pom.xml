@@ -6,7 +6,7 @@
 
     <groupId>com.codenjoy</groupId>
     <artifactId>codenjoy-builder</artifactId>
-    <version>1.0.19</version>
+    <version>1.0.20</version>
     <packaging>war</packaging>
 
     <properties>
@@ -92,6 +92,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>snake-engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>snake-battle-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -342,6 +347,15 @@
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
                                     <includes>resources/**/*</includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>snake-battle-engine</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                                    <includes>resources/**/*,WEB-INF/classes/com/codenjoy/dojo/server/*</includes>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
