@@ -6,7 +6,7 @@
 
     <groupId>com.codenjoy</groupId>
     <artifactId>codenjoy-builder</artifactId>
-    <version>1.0.20</version>
+    <version>1.0.22</version>
     <packaging>war</packaging>
 
     <properties>
@@ -29,6 +29,7 @@
     </repositories>
 
     <dependencies>
+        <!-- Games dependencies (put your game here) -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>sample-engine</artifactId>
@@ -36,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>sample-text-engine</artifactId>
+            <artifactId>sampletext-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -72,6 +73,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>hex-engine</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>kata-engine</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -222,6 +228,8 @@
                         </goals>
                         <configuration>
                             <artifactItems>
+
+                                <!-- Server resources -->
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>${war.name}</artifactId>
@@ -233,6 +241,17 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
+                                    <artifactId>engine</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                                    <includes>resources/**/*</includes>
+                                </artifactItem>
+
+                                <!-- Games resources (put your game here) -->
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
                                     <artifactId>sample-engine</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
@@ -242,7 +261,7 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
-                                    <artifactId>sample-text-engine</artifactId>
+                                    <artifactId>sampletext-engine</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
@@ -306,6 +325,15 @@
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>hex-engine</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+                                    <includes>resources/**/*</includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>kata-engine</artifactId>
                                     <version>${project.version}</version>
                                     <type>jar</type>
                                     <overWrite>true</overWrite>
