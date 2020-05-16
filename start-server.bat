@@ -7,4 +7,4 @@ call mvnw clean install ^
             -Dadmin.login=admin@codenjoyme.com ^
             -Dadmin.password=admin ^
             -DallGames
-rem			-Psnake,bomberman,sample ^
+rem			-Psnake,bomberman,sample
