@@ -6,9 +6,61 @@ Configuration
 A project that brings together the Codenjoy server and several games of your choice.
 You can choose which games to run with the server with command.
 ```
-mvn clean jetty:run-war -Pgame1,game,game3
+mvnw clean install -Pgame1,game,game3 
 OR
-mvn clean jetty:run-war -DallGames
+mvnw clean install -DallGames
+```
+Also you can change properties 
+```
+mvnw clean install -DallGames -Dcontext=/any-context -Dspring.profiles.active=sqlite,postgres,debug,trace -Dserver.port=8081 -Dadmin.login=anyLogin -Dadmin.password=anyPassword
+```
+* `context` changes link to the application
+[http://127.0.0.1:8080/codenjoy-contest](http://127.0.0.1:8080/codenjoy-contest)
+* `server.port` the port on which the application starts
+* `spring.profiles.active`
+  * `sqlite` for the lightweight database (<50 participants)
+  * `postgres` for the postgres database (>50 participants)
+    * `database.host` database server host, `localhost` by default
+    * `database.port` database server port, `5432` by default
+    * `database.name` database name, `codenjoy` by default
+    * `database.user` username to connect, `codenjoy` by default
+    * `database.password` password to connect, `securePostgresDBPassword` by default
+  * `trace` for enable log.debug
+  * `debug` if you want to debug js files (otherwise it will compress and obfuscate)
+  * `yourgame` if you added your custom configuration to the game inside `CodingDojo\games\yourgame\src\main\resources\application-yourgame.yml`
+
+You can change any other [spring application properties](https://github.com/codenjoyme/codenjoy/tree/master/CodingDojo/server/src/main/resources) - just push it on the pom.xml
+```
+    <properties>
+        <!-- you can change context here or on build start
+             mvnv install -Dcontext=another-context
+                          -Dspring.profiles.active=postgre,debug,trace
+                          -Dserver.port=8081
+                          -Dadmin.login=otherLogin
+                          -Dadmin.password=otherPassword
+        -->
+        <context>/codenjoy-contest</context>
+        <spring.profiles.active>sqlite,debug</spring.profiles.active>
+        <server.port>8080</server.port>
+        <admin.login>admin@codenjoyme.com</admin.login>
+        <admin.password>admin</admin.password>
+        <!-- here -->
+```
+and here
+```
+<java dir="target"
+      jar="target/${context}.war"
+      fork="true"
+      failonerror="true"
+      maxmemory="128m">
+
+    <env key="context" value="${context}"/>
+    <env key="spring.profiles.active" value="${spring.profiles.active}"/>
+    <env key="server.port" value="${server.port}"/>
+    <env key="admin.login" value="${admin.login}"/>
+    <env key="admin.password" value="${admin.password}"/>
+    <!-- and here -->
+</java>
 ```
 This is Codenjoy Maven repository. To select existing games type the following in your pom.xml file.
 ```
@@ -29,11 +81,11 @@ Choose codenjoy server/engine/games version
 The latest version as of now
 ```
 <properties>
-    <codenjoy.version>1.0.27</codenjoy.version>
+    <codenjoy.version>1.1.1</codenjoy.version>
 </properties>
 ```
-If you want to add your new game - please do thing bellow.
-Add your game dependency.
+If you want to add your new game - please do thing bellow. 
+Add your game dependency (you can add multiple games at the same time).
 ```
 <profiles>
     <!-- Games dependencies (put your game here - replace YOURGAME) -->
@@ -44,9 +96,6 @@ Add your game dependency.
                 <name>allGames</name>
             </property>
         </activation>
-        <properties>
-            <exclude.YOURGAME>false</exclude.battlecity>
-        </properties>
         <dependencies>
             <dependency>
                 <groupId>${project.groupId}</groupId>
@@ -56,41 +105,14 @@ Add your game dependency.
         </dependencies>
     </profile>
 ```
-Add game resources part in plugin[maven-dependency-plugin].executions tag
-```
-<!-- Games resources (put your game here - replace YOURGAME) -->
-<execution>
-    <id>unpack-YOURGAME</id>
-    <phase>compile</phase>
-    <goals>
-        <goal>unpack</goal>
-    </goals>
-    <configuration>
-        <skip>${exclude.YOURGAME}</skip>
-        <artifactItems>
-            <artifactItem>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>YOURGAME-engine</artifactId>
-                <version>${project.version}</version>
-                <type>jar</type>
-                <overWrite>true</overWrite>
-                <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
-                <includes>resources/**/*,WEB-INF/classes/com/codenjoy/dojo/server/*</includes>
-            </artifactItem>
-        </artifactItems>
-    </configuration>
-</execution>
-```
-Then
-```
-mvn clean jetty:run-war -Pyourgame
-```
-You can add multiple games at the same time, and remove existing ones
+If you create your own game, you should have it pre-installed by running `mvnw clean install` from the game project root. If you use a game kit that already exists, you don't have to do anything - the builder will retrieve the games from the remote repository for you.
 
-Launch your project
---------------
-To launch your project, run `mvn -DMAVEN_OPTS=-Xmx1024m -Dmaven.test.skip=true clean jetty:run-war` from the project builder's root
-If you create your own game, you should have it pre-installed by running `mvn clean install` from the project root. If you use a game kit that already exists, you don't have to do anything - the builder will retrieve the games from the remote repository for you.
+Then run
+```
+mvnw clean install -Pgame1,game,game3 -Dparameter=value ...
+OR
+mvnw clean install -DallGames -Dparameter=value ...
+```
 
 Other materials
 --------------
