@@ -1,4 +1,4 @@
-call mvnw clean install ^
+call mvnw install ^
             -DMAVEN_OPTS=-Xmx1024m ^
             -Dmaven.test.skip=true ^
             -Dcontext=/codenjoy-contest ^

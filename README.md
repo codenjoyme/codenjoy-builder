@@ -6,13 +6,15 @@ Configuration
 A project that brings together the Codenjoy server and several games of your choice.
 You can choose which games to run with the server with command.
 ```
-mvnw clean install -Pgame1,game,game3 
+mvnw install -Pgame1,game,game3 
 OR
-mvnw clean install -DallGames
+mvnw install -DallGames
 ```
-Also you can change properties 
+Be careful - run `mvnw clean` will remove sqlite database files `./target/database` so you lost your data.
+
+Also you can change properties (please check `start-server.bat` for windows or `start-server.sh` for linux) 
 ```
-mvnw clean install -DallGames -Dcontext=/any-context -Dspring.profiles.active=sqlite,postgres,debug,trace -Dserver.port=8081 -Dadmin.login=anyLogin -Dadmin.password=anyPassword
+mvnw install -DallGames -Dcontext=/any-context -Dspring.profiles.active=sqlite,postgres,debug,trace -Dserver.port=8081 -Dadmin.login=anyLogin -Dadmin.password=anyPassword
 ```
 * `context` changes link to the application
 [http://127.0.0.1:8080/codenjoy-contest](http://127.0.0.1:8080/codenjoy-contest)
@@ -109,9 +111,9 @@ If you create your own game, you should have it pre-installed by running `mvnw c
 
 Then run
 ```
-mvnw clean install -Pgame1,game,game3 -Dparameter=value ...
+mvnw install -Pgame1,game,game3 -Dparameter=value ...
 OR
-mvnw clean install -DallGames -Dparameter=value ...
+mvnw install -DallGames -Dparameter=value ...
 ```
 
 Other materials
